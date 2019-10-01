@@ -1,2 +1,2 @@
-# reboot_page_insight
-Reboot of page insight application in flutter
+# streak
+Streak calculator and manager
