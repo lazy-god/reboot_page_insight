@@ -23,3 +23,6 @@ flutter:
   - family: Architects Daughter
     fonts:
       - asset: fonts/ArchitectsDaughter-Regular.ttf
+  - family: Nova Mono
+    fonts:
+      - asset: fonts/NovaMono-Regular.ttf

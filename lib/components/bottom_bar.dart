@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class BottomBar extends StatelessWidget {
   final double minHeight;
   final Widget child;
-  final LinearGradient gradient;
+  final Gradient gradient;
   BottomBar({this.minHeight, this.gradient, this.child});
 
   @override
@@ -22,10 +22,10 @@ class BottomBar extends StatelessWidget {
             gradient: gradient,
             borderRadius: BorderRadius.only(
               topRight: Radius.circular(
-                30.0,
+                40.0,
               ),
               topLeft: Radius.circular(
-                30.0,
+                40.0,
               ),
             ),
           ),
