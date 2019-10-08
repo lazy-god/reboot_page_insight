@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:streak/constants.dart';
 
 class StreakContainer extends StatelessWidget {
   final Widget child;
-  StreakContainer(this.child);
+  final Gradient gradient;
+  StreakContainer({this.child, this.gradient});
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +12,7 @@ class StreakContainer extends StatelessWidget {
         borderRadius: BorderRadius.all(
           Radius.circular(20.0),
         ),
-        gradient: kLightPurpleLinearGradient,
+        gradient: gradient,
       ),
       child: Padding(
         padding: const EdgeInsets.all(16.0),

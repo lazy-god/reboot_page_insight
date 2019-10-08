@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:streak/constants.dart';
 import 'package:streak/screen/streak_screen.dart';
 
 void main() => runApp(MyApp());
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
       theme: ThemeData.light().copyWith(
-        cursorColor: Colors.deepPurple,
+        cursorColor: kSecondaryColor,
       ),
       home: StreakScreen(),
     );

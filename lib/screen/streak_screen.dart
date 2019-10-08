@@ -28,7 +28,7 @@ class _StreakScreenState extends State<StreakScreen> {
                       Icon(
                         Icons.bubble_chart,
                         size: 35.0,
-                        color: Colors.deepPurple,
+                        color: Colors.blueGrey,
                       ),
                       GestureDetector(
                         onTap: () {
@@ -42,7 +42,7 @@ class _StreakScreenState extends State<StreakScreen> {
                         child: Icon(
                           Icons.add_box,
                           size: 35.0,
-                          color: Colors.deepPurple,
+                          color: Colors.blueGrey,
                         ),
                       ),
                     ],

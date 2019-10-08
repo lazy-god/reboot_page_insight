@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:streak/components/streak_dialog.dart';
 import 'package:streak/components/streak_icon.dart';
 import 'package:streak/constants.dart';
@@ -10,7 +11,8 @@ class AddScreen extends StatefulWidget {
 
 class _AddScreenState extends State<AddScreen> {
   final _textFieldController = TextEditingController();
-  var _currentIcon = 1;
+  int _currentIconIndex = 0;
+  bool _showCursor = true;
 
   @override
   void initState() {
@@ -18,12 +20,67 @@ class _AddScreenState extends State<AddScreen> {
     super.initState();
   }
 
-  Future<void> _chooseIcon() async {
-    await showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return StreakDialog();
+  @override
+  void dispose() {
+    _textFieldController.dispose();
+    super.dispose();
+  }
+
+  void _chooseIcon() async {
+    int newIndex = await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return StreakDialog();
+      },
+    );
+    setState(() {
+      _currentIconIndex = newIndex;
+    });
+  }
+
+  Widget _getChip(String text) {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          _showCursor = false;
         });
+        _textFieldController.text = text;
+      },
+      child: StreakContainer(
+        child: Text(
+          text,
+          style: kStreakText.copyWith(
+            color: kSecondaryColor,
+          ),
+        ),
+        gradient: kLightBlueGreyLinearGradient,
+      ),
+    );
+  }
+
+  Widget _getCounters(IconData icon, bool add) {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          _showCursor = false;
+        });
+        int curr = 0;
+        if (add) {
+          curr = int.parse(_textFieldController.text) + 1;
+        } else {
+          curr = int.parse(_textFieldController.text) - 1;
+          if (curr < 0) curr = 0;
+        }
+        _textFieldController.text = curr.toString();
+      },
+      child: StreakContainer(
+        child: Icon(
+          icon,
+          color: kSecondaryColor,
+        ),
+        gradient: kLightBlueGreyLinearGradient,
+      ),
+    );
   }
 
   @override
@@ -41,8 +98,7 @@ class _AddScreenState extends State<AddScreen> {
                 children: <Widget>[
                   GestureDetector(
                     onTap: () {
-//                      Navigator.pop(context);
-                      _chooseIcon();
+                      Navigator.pop(context);
                     },
                     child: Padding(
                       padding: const EdgeInsets.only(
@@ -50,7 +106,7 @@ class _AddScreenState extends State<AddScreen> {
                       ),
                       child: Icon(
                         Icons.arrow_back_ios,
-                        color: kPrimaryColor,
+                        color: kSecondaryColor,
                       ),
                     ),
                   ),
@@ -84,7 +140,7 @@ class _AddScreenState extends State<AddScreen> {
                 child: Text(
                   kAddScreenText,
                   style: kStreakText.copyWith(
-                    color: kPrimaryColor,
+                    color: kSecondaryColor,
                   ),
                 ),
               ),
@@ -99,7 +155,7 @@ class _AddScreenState extends State<AddScreen> {
                     children: <Widget>[
                       TextField(
                         style: kStreakText.copyWith(
-                          color: kPrimaryColor,
+                          color: kSecondaryColor,
                           fontSize: 20.0,
                           fontWeight: FontWeight.w900,
                         ),
@@ -109,134 +165,62 @@ class _AddScreenState extends State<AddScreen> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                bottom: kPadding,
-                                top: kPadding,
-                              ),
-                              child: IndexedStack(
-                                index: _currentIcon,
-                                children: <Widget>[
-                                  StreakContainer(
-                                    Icon(
-                                      Icons.shopping_cart,
-                                      size: 60.0,
-                                      color: kPrimaryColor,
-                                    ),
-                                  ),
-                                  StreakContainer(
-                                    Icon(
-                                      Icons.add,
-                                      size: 60.0,
-                                      color: kPrimaryColor,
-                                    ),
-                                  ),
-                                  StreakContainer(
-                                    Icon(
-                                      Icons.report_problem,
-                                      size: 60.0,
-                                      color: kPrimaryColor,
-                                    ),
-                                  ),
-                                  StreakContainer(
-                                    Icon(
-                                      Icons.group_work,
-                                      size: 60.0,
-                                      color: kPrimaryColor,
-                                    ),
-                                  ),
-                                  StreakContainer(
-                                    Icon(
-                                      Icons.bubble_chart,
-                                      size: 60.0,
-                                      color: kPrimaryColor,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
                             Row(
                               children: <Widget>[
-                                StreakContainer(
-                                  Icon(
-                                    Icons.remove,
-                                    color: kPrimaryColor,
-                                  ),
-                                ),
+                                _getCounters(Icons.remove, false),
                                 Expanded(
                                   child: Padding(
                                     padding: const EdgeInsets.all(16.0),
                                     child: TextField(
+                                      onTap: () {
+                                        setState(() {
+                                          _showCursor = true;
+                                        });
+                                      },
+                                      showCursor: _showCursor,
+                                      keyboardType: TextInputType.number,
                                       controller: _textFieldController,
                                       textAlign: TextAlign.center,
-                                      style: kStreakText.copyWith(
-                                        color: kPrimaryColor,
-                                        fontSize: 24.0,
+                                      style: kImpStreakText.copyWith(
+                                        color: kSecondaryColor,
                                         fontWeight: FontWeight.w900,
                                       ),
-                                      decoration:
-                                          kTextFieldBorderDecoration.copyWith(
-                                        labelText: '',
+                                      decoration: InputDecoration(
+                                        border: InputBorder.none,
                                       ),
                                     ),
                                   ),
                                 ),
-                                StreakContainer(
-                                  Icon(
-                                    Icons.add,
-                                    color: kPrimaryColor,
-                                  ),
-                                ),
+                                _getCounters(Icons.add, true),
                               ],
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.all(kPadding),
-                                  child: StreakContainer(
-                                    Text(
-                                      '100',
-                                      style: kStreakText.copyWith(
-                                        color: kPrimaryColor,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: StreakContainer(
-                                    Text(
-                                      '200',
-                                      style: kStreakText.copyWith(
-                                        color: kPrimaryColor,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: StreakContainer(
-                                    Text(
-                                      '300',
-                                      style: kStreakText.copyWith(
-                                        color: Colors.deepPurple,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: StreakContainer(
-                                    Text(
-                                      '500',
-                                      style: kStreakText.copyWith(
-                                        color: Colors.deepPurple,
-                                      ),
-                                    ),
-                                  ),
-                                ),
+                                _getChip('100'),
+                                _getChip('200'),
+                                _getChip('300'),
+                                _getChip('500'),
                               ],
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                bottom: kPadding,
+                                top: kPadding,
+                              ),
+                              child: GestureDetector(
+                                onTap: () {
+                                  _chooseIcon();
+                                },
+                                child: StreakContainer(
+                                  child: Icon(
+                                    kIconList[_currentIconIndex],
+                                    size: 60.0,
+                                    color: kPrimaryColor,
+                                  ),
+                                  gradient: kLightPurpleLinearGradient,
+                                ),
+                              ),
                             ),
                           ],
                         ),

@@ -19,10 +19,11 @@ class _TileState extends State<Tile> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           StreakContainer(
-            Icon(
+            child: Icon(
               Icons.shopping_cart,
               color: Colors.deepPurple,
             ),
+            gradient: kLightPurpleLinearGradient,
           ),
           SizedBox(
             width: 20.0,

@@ -3,11 +3,46 @@ import 'package:streak/components/streak_icon.dart';
 import 'package:streak/constants.dart';
 
 class StreakDialog extends StatefulWidget {
+//  final Function onIconChange;
+//  StreakDialog({this.onIconChange});
+
   @override
   _StreakDialogState createState() => _StreakDialogState();
 }
 
 class _StreakDialogState extends State<StreakDialog> {
+  List<Widget> getChildren(int st, int en, List<IconData> iconList) {
+    List<Widget> children = List();
+    for (int i = st; i < en; ++i) {
+      children.add(
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: GestureDetector(
+            onTap: () {
+              Navigator.pop(context, i);
+            },
+            child: StreakContainer(
+              child: Icon(
+                iconList[i],
+                color: kSecondaryColor,
+              ),
+              gradient: kLightBlueGreyLinearGradient,
+            ),
+          ),
+        ),
+      );
+    }
+    return children;
+  }
+
+  List<TableRow> getTable(List<IconData> iconList) {
+    List<TableRow> tableRow = List();
+    tableRow.add(TableRow(children: getChildren(0, 4, iconList)));
+    tableRow.add(TableRow(children: getChildren(4, 8, iconList)));
+    tableRow.add(TableRow(children: getChildren(8, 12, iconList)));
+    return tableRow;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -33,56 +68,7 @@ class _StreakDialogState extends State<StreakDialog> {
                 vertical: kPadding,
               ),
               child: Table(
-                children: [
-                  TableRow(
-                    children: List.generate(
-                      4,
-                      (index) {
-                        return Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: StreakContainer(
-                            Icon(
-                              Icons.add,
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                  TableRow(
-                    children: List.generate(
-                      4,
-                      (index) {
-                        return Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: StreakContainer(
-                            Icon(
-                              Icons.add,
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                  TableRow(
-                    children: List.generate(
-                      4,
-                      (index) {
-                        return Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: StreakContainer(
-                            Hero(
-                              tag: kTagIcon,
-                              child: Icon(
-                                Icons.add,
-                              ),
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                ],
+                children: getTable(kIconList),
               ),
             ),
           ],
