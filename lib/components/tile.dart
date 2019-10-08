@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:streak/components/streak_icon.dart';
 import 'package:streak/constants.dart';
 
 class Tile extends StatefulWidget {
@@ -17,26 +18,10 @@ class _TileState extends State<Tile> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(
-                Radius.circular(20.0),
-              ),
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                colors: [
-                  Color.fromRGBO(0, 244, 138, 0.2),
-                  Color.fromRGBO(0, 220, 175, 0.2),
-                  Color.fromRGBO(0, 178, 204, 0.2),
-                ],
-              ),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Icon(
-                Icons.shopping_cart,
-                color: Colors.green[800],
-              ),
+          StreakContainer(
+            Icon(
+              Icons.shopping_cart,
+              color: Colors.deepPurple,
             ),
           ),
           SizedBox(
@@ -76,7 +61,7 @@ class _TileState extends State<Tile> {
                   child: Stack(
                     children: <Widget>[
                       Container(
-                        height: 30.0,
+                        height: 25.0,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(16.0)),
                           color: Colors.blueGrey[100],
@@ -85,13 +70,12 @@ class _TileState extends State<Tile> {
                       LayoutBuilder(
                         builder: (context, constraints) {
                           return Container(
-                            height: 30.0,
+                            height: 25.0,
                             width: constraints.maxWidth / 2,
                             decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(16.0)),
-                              color: Colors.greenAccent,
-                            ),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(16.0)),
+                                gradient: kMediumPurpleLinearGradient),
                           );
                         },
                       ),
