@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 
 class BottomBar extends StatelessWidget {
-  final double minHeight;
   final Widget child;
   final Gradient gradient;
-  BottomBar({this.minHeight, this.gradient, this.child});
+  BottomBar({this.gradient, this.child});
 
   @override
   Widget build(BuildContext context) {
@@ -13,10 +12,6 @@ class BottomBar extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         Container(
-          constraints: BoxConstraints(
-            minHeight: minHeight,
-          ),
-          height: 30.0,
           child: child,
           decoration: BoxDecoration(
             gradient: gradient,

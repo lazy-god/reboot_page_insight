@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 const double kBarWidth = 40.0;
 const double kBarRadius = 20.0;
 const kAddScreenText = 'Set your goal streak here';
-const kTagTitle = 'title';
+const kTagAddScreen = 'addScreen';
 const kTagIcon = 'icon';
 const kPrimaryColor = Colors.deepPurple;
 const kSecondaryColor = Colors.blueGrey;
@@ -66,6 +66,16 @@ const kLightBlueGreyLinearGradient = LinearGradient(
     Color.fromRGBO(179, 182, 181, 0.2),
     Color.fromRGBO(161, 162, 163, 0.2),
     Color.fromRGBO(142, 141, 141, 0.2),
+  ],
+);
+
+const kMediumBlueGreyLinearGradient = LinearGradient(
+  begin: Alignment.topLeft,
+  colors: [
+    Color.fromRGBO(190, 192, 194, 0.6),
+    Color.fromRGBO(179, 182, 181, 0.6),
+    Color.fromRGBO(161, 162, 163, 0.6),
+    Color.fromRGBO(142, 141, 141, 0.6),
   ],
 );
 

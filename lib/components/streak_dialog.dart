@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:streak/components/streak_icon.dart';
+import 'package:streak/components/streak_container.dart';
 import 'package:streak/constants.dart';
 
 class StreakDialog extends StatefulWidget {

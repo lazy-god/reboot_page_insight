@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:streak/components/streak_container.dart';
 import 'package:streak/components/streak_dialog.dart';
-import 'package:streak/components/streak_icon.dart';
+import 'package:streak/components/streak_menu.dart';
 import 'package:streak/constants.dart';
+import 'package:streak/models/streak.dart';
+import 'package:streak/services/db.dart';
 
 class AddScreen extends StatefulWidget {
   @override
@@ -10,9 +13,13 @@ class AddScreen extends StatefulWidget {
 }
 
 class _AddScreenState extends State<AddScreen> {
+  final DbProvider _dbProvider = DbProvider();
   final _textFieldController = TextEditingController();
   int _currentIconIndex = 0;
   bool _showCursor = true;
+  bool _check = false;
+  Color _checkColor = kSecondaryColor;
+  String _titleText;
 
   @override
   void initState() {
@@ -33,9 +40,11 @@ class _AddScreenState extends State<AddScreen> {
         return StreakDialog();
       },
     );
-    setState(() {
-      _currentIconIndex = newIndex;
-    });
+    if (newIndex != null) {
+      setState(() {
+        _currentIconIndex = newIndex;
+      });
+    }
   }
 
   Widget _getChip(String text) {
@@ -56,6 +65,10 @@ class _AddScreenState extends State<AddScreen> {
         gradient: kLightBlueGreyLinearGradient,
       ),
     );
+  }
+
+  Future<int> _insertStreak(Streak streak) async {
+    return await _dbProvider.insertStreak(streak);
   }
 
   Widget _getCounters(IconData icon, bool add) {
@@ -114,9 +127,9 @@ class _AddScreenState extends State<AddScreen> {
                     child: Container(
                       alignment: Alignment.center,
                       child: Hero(
-                        tag: kTagTitle,
+                        tag: kTagAddScreen,
                         child: Text(
-                          'Streak',
+                          'Add Streak',
                           style: kTitleText,
                         ),
                       ),
@@ -124,8 +137,13 @@ class _AddScreenState extends State<AddScreen> {
                   ),
                   Opacity(
                     opacity: 0,
-                    child: Icon(
-                      Icons.arrow_back_ios,
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                        left: kPadding,
+                      ),
+                      child: Icon(
+                        Icons.arrow_back_ios,
+                      ),
                     ),
                   ),
                 ],
@@ -154,6 +172,11 @@ class _AddScreenState extends State<AddScreen> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
                       TextField(
+                        onChanged: (value) {
+                          setState(() {
+                            _titleText = value;
+                          });
+                        },
                         style: kStreakText.copyWith(
                           color: kSecondaryColor,
                           fontSize: 20.0,
@@ -208,17 +231,47 @@ class _AddScreenState extends State<AddScreen> {
                                 bottom: kPadding,
                                 top: kPadding,
                               ),
-                              child: GestureDetector(
-                                onTap: () {
-                                  _chooseIcon();
-                                },
-                                child: StreakContainer(
-                                  child: Icon(
-                                    kIconList[_currentIconIndex],
-                                    size: 60.0,
-                                    color: kPrimaryColor,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(
+                                    16.0,
                                   ),
-                                  gradient: kLightPurpleLinearGradient,
+                                  gradient: kLightBlueGreyLinearGradient,
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(kPadding),
+                                  child: Column(
+                                    children: <Widget>[
+                                      StreakMenu(
+                                        onTap: () {
+                                          _chooseIcon();
+                                        },
+                                        icon: Icon(
+                                          kIconList[_currentIconIndex],
+                                          color: kPrimaryColor,
+                                        ),
+                                        text: 'Choose Avatar',
+                                      ),
+                                      StreakMenu(
+                                        onTap: () {
+                                          setState(() {
+                                            if (!_check) {
+                                              _check = true;
+                                              _checkColor = kPrimaryColor;
+                                            } else {
+                                              _check = false;
+                                              _checkColor = kSecondaryColor;
+                                            }
+                                          });
+                                        },
+                                        icon: Icon(
+                                          Icons.fiber_manual_record,
+                                          color: _checkColor,
+                                        ),
+                                        text: 'Reset (on miss)',
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
@@ -236,8 +289,12 @@ class _AddScreenState extends State<AddScreen> {
                     elevation: 5.0,
                     borderRadius: BorderRadius.circular(16.0),
                     child: GestureDetector(
-                      onTap: () {
-                        print('continue');
+                      onTap: () async {
+                        Streak streak = Streak(
+                          _titleText,
+                          int.parse(_textFieldController.text),
+                        );
+                        int result = await _insertStreak(streak);
                       },
                       child: Container(
                         decoration: BoxDecoration(
