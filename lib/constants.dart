@@ -158,6 +158,15 @@ const kTextFieldFillDecoration = InputDecoration(
   ),
 );
 
+const kSheetBorderRadius = BorderRadius.only(
+  topRight: Radius.circular(
+    40.0,
+  ),
+  topLeft: Radius.circular(
+    40.0,
+  ),
+);
+
 const kIconList = [
   Icons.shopping_cart,
   Icons.style,

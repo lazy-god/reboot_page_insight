@@ -44,7 +44,7 @@ class DbProvider {
   }
 
   // fetch operation
-  Future<List<Streak>> getStreakMapList() async {
+  Future<List<Streak>> getStreakList() async {
     final Database db = await this.database;
     final List<Map<String, dynamic>> maps = await db.query(tableName);
     return List.generate(

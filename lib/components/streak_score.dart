@@ -11,10 +11,10 @@ class _StreakScoreState extends State<StreakScore> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(
-        top: 50.0,
+        top: 40.0,
         right: 30.0,
         left: 30.0,
-        bottom: 200.0,
+        bottom: 100.0,
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,

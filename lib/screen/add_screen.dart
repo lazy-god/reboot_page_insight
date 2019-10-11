@@ -111,7 +111,7 @@ class _AddScreenState extends State<AddScreen> {
                 children: <Widget>[
                   GestureDetector(
                     onTap: () {
-                      Navigator.pop(context);
+                      Navigator.pop(context, 0);
                     },
                     child: Padding(
                       padding: const EdgeInsets.only(
@@ -295,6 +295,8 @@ class _AddScreenState extends State<AddScreen> {
                           int.parse(_textFieldController.text),
                         );
                         int result = await _insertStreak(streak);
+                        print(result);
+                        Navigator.pop(context, result);
                       },
                       child: Container(
                         decoration: BoxDecoration(

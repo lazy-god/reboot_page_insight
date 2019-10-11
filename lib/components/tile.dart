@@ -3,6 +3,9 @@ import 'package:streak/components/streak_container.dart';
 import 'package:streak/constants.dart';
 
 class Tile extends StatefulWidget {
+  final String _title, _goal;
+  Tile(this._title, this._goal);
+
   @override
   _TileState createState() => _TileState();
 }
@@ -39,13 +42,13 @@ class _TileState extends State<Tile> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Text(
-                        'Shopping',
+                        widget._title,
                         style: kStreakText.copyWith(
                           color: Colors.black54,
                         ),
                       ),
                       Text(
-                        '300',
+                        widget._goal,
                         style: kStreakText.copyWith(
                           color: Colors.black54,
                         ),
