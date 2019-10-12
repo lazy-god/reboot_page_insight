@@ -58,7 +58,10 @@ class _StreakScreenState extends State<StreakScreen>
   }
 
   void updateStreakList() async {
-    _streakList = await _dbProvider.getStreakList();
+    List<Streak> newList = await _dbProvider.getStreakList();
+    setState(() {
+      _streakList = newList;
+    });
   }
 
   @override
@@ -103,50 +106,49 @@ class _StreakScreenState extends State<StreakScreen>
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: <Widget>[
-                            GestureDetector(
-                              onTap: () async {
-                                if (await Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => AddScreen(),
+                            Material(
+                              elevation: 5.0,
+                              borderRadius: BorderRadius.circular(
+                                20.0,
+                              ),
+                              child: StreakContainer(
+                                onTap: () async {
+                                  if (await Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => AddScreen(),
+                                        ),
+                                      ) !=
+                                      0) {
+                                    setState(() {
+                                      updateStreakList();
+                                    });
+                                  }
+                                },
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                        right: 8.0,
                                       ),
-                                    ) !=
-                                    0) {
-                                  setState(() {
-                                    updateStreakList();
-                                  });
-                                }
-                              },
-                              child: Padding(
-                                padding: const EdgeInsets.all(
-                                  kPadding,
-                                ),
-                                child: StreakContainer(
-                                  child: Hero(
-                                    tag: kTagAddScreen,
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: <Widget>[
-                                        Padding(
-                                          padding: const EdgeInsets.only(
-                                            right: 8.0,
-                                          ),
-                                          child: Icon(
-                                            Icons.add,
-                                            color: Colors.black54,
-                                          ),
-                                        ),
-                                        Text(
-                                          'Add Streak',
-                                          style: kStreakText.copyWith(
-                                            color: Colors.black54,
-                                          ),
-                                        ),
-                                      ],
+                                      child: Icon(
+                                        Icons.add,
+                                        color: Colors.white,
+                                      ),
                                     ),
-                                  ),
-                                  gradient: kMediumBlueGreyLinearGradient,
+                                    Hero(
+                                      tag: kTagAddScreen,
+                                      child: Text(
+                                        'Add Streak',
+                                        style: kStreakText.copyWith(
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
+                                gradient: kPurpleLinearGradient,
                               ),
                             ),
                           ],

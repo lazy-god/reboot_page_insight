@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:streak/constants.dart';
 
 class StreakContainer extends StatelessWidget {
   final Widget child;
   final Gradient gradient;
-  StreakContainer({this.child, this.gradient});
+  final Function onTap;
+  StreakContainer({this.child, this.gradient, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -14,9 +16,20 @@ class StreakContainer extends StatelessWidget {
         ),
         gradient: gradient,
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: child,
+      child: Material(
+        type: MaterialType.transparency,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(
+            20.0,
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(
+              kPadding,
+            ),
+            child: child,
+          ),
+          onTap: onTap,
+        ),
       ),
     );
   }
