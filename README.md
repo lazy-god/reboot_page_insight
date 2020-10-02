@@ -1,6 +1,7 @@
 # streak
 
 Streak calculator and manager
+Project no more maintained, just a demo version present here.
 
 ## Getting Started
 
